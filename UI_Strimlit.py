@@ -1,44 +1,59 @@
-pip install pandas matplotlib scikit-learn streamlit
 import streamlit as st
 import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
 
-# Set title
-st.title("📊 Students Performance Dashboard")
+# ---- PAGE SETUP ----
+st.set_page_config(page_title="Student Dashboard", layout="wide")
 
-# Load dataset
+# ---- CUSTOM BACKGROUND VIDEO (HTML) ----
+def set_background_video():
+    video_url = "https://www.w3schools.com/howto/rain.mp4"  # Or use any hosted MP4
+    st.markdown(f"""
+        <style>
+        .stApp {{
+            background: url("{video_url}");
+            background-size: cover;
+            background-attachment: fixed;
+        }}
+        .block-container {{
+            backdrop-filter: blur(6px);
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 2rem;
+            border-radius: 12px;
+        }}
+        </style>
+    """, unsafe_allow_html=True)
+
+# Apply background effect
+set_background_video()
+
+# ---- MAIN TITLE ----
+st.title("📊 Student Performance Dashboard")
+
+# ---- LOAD DATA ----
 df = pd.read_csv("/content/StudentsPerformance.csv")
+df.columns = df.columns.str.lower().str.replace(" ", "_")
 
-# Clean column names
-df.columns = df.columns.str.strip().str.lower().str.replace(" ", "_")
-
-# Create new columns
-df['total_score'] = df[['math_score', 'reading_score', 'writing_score']].sum(axis=1)
-df['average_score'] = df['total_score'] / 3
-
-# Show data
+# ---- DATA DISPLAY ----
 if st.checkbox("🔍 Show Raw Data"):
     st.dataframe(df)
 
+# ---- METRICS ----
+st.subheader("📌 Key Metrics")
+col1, col2, col3 = st.columns(3)
+col1.metric("Total Students", df.shape[0])
+col2.metric("Avg Math Score", round(df['math_score'].mean(), 2))
+col3.metric("Avg Reading Score", round(df['reading_score'].mean(), 2))
 
+# ---- FILTER SECTION ----
+st.subheader("🎯 Filter by Gender")
+gender_filter = st.selectbox("Select Gender", df['gender'].unique())
+filtered_df = df[df['gender'] == gender_filter]
 
-# Section: ML Prediction
-st.subheader("🤖 Predict Average Score (Linear Regression)")
+st.write(f"Showing data for **{gender_filter}** students:")
+st.dataframe(filtered_df)
 
-# User input sliders
-math = st.slider("Math Score", 0, 100, 70)
-reading = st.slider("Reading Score", 0, 100, 70)
-writing = st.slider("Writing Score", 0, 100, 70)
-
-# Train model
-X = df[['math_score', 'reading_score', 'writing_score']]
-y = df['average_score']
-model = LinearRegression()
-model.fit(X, y)
-
-# Predict
-input_data = [[math, reading, writing]]
-predicted_avg = model.predict(input_data)[0]
-st.success(f"🎯 Predicted Average Score: {predicted_avg:.2f}")
-
+# ---- STYLISH FOOTER ----
+st.markdown("""
+    <hr>
+    <center>Made with ❤️ using Streamlit</center>
+""", unsafe_allow_html=True)
