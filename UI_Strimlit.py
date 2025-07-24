@@ -4,22 +4,33 @@ import pandas as pd
 # Page config
 st.set_page_config(page_title="📊 Student Dashboard", layout="wide")
 
-# Background image (optional visual)
 st.markdown("""
     <style>
     .stApp {
-        background-image: url("https://cdn.pixabay.com/photo/2017/02/14/14/17/school-2064976_1280.jpg");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
+        position: relative;
+        overflow: hidden;
+    }
+
+    video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        min-width: 100vw;
+        min-height: 100vh;
+        object-fit: cover;
+        z-index: -1;
+        opacity: 0.7;
     }
 
     .block-container {
-        background-color: rgba(255, 255, 255, 0.85); 
-        padding: 2rem;
-        border-radius: 1rem;
+        position: relative;
+        z-index: 1;
     }
     </style>
+
+    <video autoplay muted loop>
+        <source src="https://videos.pexels.com/video-files/856331/856331-hd_1280_720_25fps.mp4" type="video/mp4">
+    </video>
 """, unsafe_allow_html=True)
 
 
