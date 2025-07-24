@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import seaborn as sns
-import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 
@@ -22,29 +21,7 @@ df['average_score'] = df['total_score'] / 3
 if st.checkbox("🔍 Show Raw Data"):
     st.dataframe(df)
 
-# Section: Visualizations
-st.subheader("📈 Visualizations")
 
-# Subject selection
-subject = st.selectbox("Choose a subject", ['math_score', 'reading_score', 'writing_score'])
-
-# Histogram plot
-fig1, ax1 = plt.subplots()
-sns.histplot(df[subject], kde=True, bins=20, ax=ax1)
-ax1.set_title(f"{subject.capitalize()} Distribution")
-st.pyplot(fig1)
-
-# Boxplot for average scores by gender
-fig2, ax2 = plt.subplots()
-sns.boxplot(data=df, x='gender', y='average_score', ax=ax2)
-ax2.set_title("Average Score by Gender")
-st.pyplot(fig2)
-
-# Correlation heatmap
-fig3, ax3 = plt.subplots()
-sns.heatmap(df[['math_score', 'reading_score', 'writing_score']].corr(), annot=True, cmap="YlGnBu", ax=ax3)
-ax3.set_title("Correlation Between Subjects")
-st.pyplot(fig3)
 
 # Section: ML Prediction
 st.subheader("🤖 Predict Average Score (Linear Regression)")
