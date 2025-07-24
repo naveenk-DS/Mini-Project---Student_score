@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+df = pd.read_csv("/content/StudentsPerformance.csv")
 
 # ---- PAGE SETUP ----
 st.set_page_config(page_title="Student Dashboard", layout="wide")
