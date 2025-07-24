@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-# ✅ Video Background (Anime Style)
+# Inject CSS + Video Background
 st.markdown("""
     <style>
     .stApp {
@@ -15,11 +15,9 @@ st.markdown("""
         left: 0;
         min-width: 100vw;
         min-height: 100vh;
-        width: auto;
-        height: auto;
-        z-index: -1;
         object-fit: cover;
-        opacity: 0.6;
+        z-index: -1;
+        opacity: 0.8;
     }
 
     .block-container {
@@ -29,19 +27,20 @@ st.markdown("""
     </style>
 
     <video autoplay muted loop id="bgvideo">
-        <source src="https://videos.pexels.com/video-files/856331/856331-hd_1280_720_25fps.mp4" type="video/mp4">
+        <source src="https://moewalls.com/wp-content/uploads/2023/10/yanami-anna-waving-at-you-makeine-thumb.webm" type="video/webm">
     </video>
 """, unsafe_allow_html=True)
 
-# ✅ Your existing UI
+# UI Elements
 st.title("📊 Student Performance Dashboard")
-st.markdown("📁 **Upload StudentsPerformance.csv file**")
+st.markdown("Upload your **StudentsPerformance.csv** file to begin.")
 
-uploaded_file = st.file_uploader("Drag and drop file here", type="csv")
+uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
-    st.success("✅ Dataset uploaded successfully!")
-    st.write(df.head())
+    st.success("✅ File uploaded successfully!")
+    st.write("### Preview of Dataset:")
+    st.dataframe(df.head())
 else:
-    st.warning("📂 Please upload the dataset to continue.")
+    st.warning("⚠️ Please upload the dataset to continue.")
