@@ -1,46 +1,35 @@
 import streamlit as st
 import pandas as pd
 
-# Inject CSS + Video Background
+# Page config
+st.set_page_config(page_title="Student Performance Dashboard", layout="centered")
+
+# Custom CSS for black background
 st.markdown("""
     <style>
-    .stApp {
-        background: transparent;
-        position: relative;
-    }
-
-    video#bgvideo {
-        position: fixed;
-        top: 0;
-        left: 0;
-        min-width: 100vw;
-        min-height: 100vh;
-        object-fit: cover;
-        z-index: -1;
-        opacity: 0.8;
-    }
-
-    .block-container {
-        position: relative;
-        z-index: 1;
-    }
+        .stApp {
+            background-color: black;
+        }
+        h1 {
+            color: white;
+        }
+        .css-18ni7ap {
+            background-color: #1e1e1e;
+        }
     </style>
-
-    <video autoplay muted loop id="bgvideo">
-        <source src="https://moewalls.com/wp-content/uploads/2023/10/yanami-anna-waving-at-you-makeine-thumb.webm" type="video/webm">
-    </video>
 """, unsafe_allow_html=True)
 
-# UI Elements
-st.title("📊 Student Performance Dashboard")
-st.markdown("Upload your **StudentsPerformance.csv** file to begin.")
+# Title
+st.markdown("<h1 style='text-align: center;'>🎓 Student Performance Dashboard</h1>", unsafe_allow_html=True)
 
-uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+# File uploader
+st.markdown("#### 📁 Upload `StudentsPerformance.csv` file")
+uploaded_file = st.file_uploader("Drag and drop file here", type=["csv"])
 
+# If uploaded, show basic info
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
     st.success("✅ File uploaded successfully!")
-    st.write("### Preview of Dataset:")
-    st.dataframe(df.head())
+    st.write(df.head())
 else:
     st.warning("⚠️ Please upload the dataset to continue.")
